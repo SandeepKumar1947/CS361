@@ -1,22 +1,38 @@
 public class Recursion {
-    private static int counter = 0;
+    public static int evaluate(int n, boolean innermost) {
+        if (innermost) {
+            System.out.println("Innermost evaluation: evaluate(" + n + ")");
+        } else {
+            System.out.println("Outermost evaluation: evaluate(" + n + ")");
+        }
 
-    public static void main(String[] args) {
-        System.out.println("Result: " + recursiveFunction(3));
-        System.out.println("Total function calls: " + counter);
+        if (n == 0) {
+            return 0;
+        }
+
+        if (innermost) {
+            System.out.println("Before recursion: Adding 1 to the result of evaluate(" + (n - 1) + ")");
+            int result = 1 + evaluate(n - 1, true);
+            System.out.println("Returning from evaluate(" + n + ") -> " + result);
+            return result;
+        } else {
+            int result = evaluate(n - 1, false);
+            System.out.println("Returning from evaluate(" + n + ") -> " + (result + 1));
+            return result + 1;
+        }
     }
 
-    public static int recursiveFunction(int n) {
-        counter++;
-        System.out.println("Entering recursiveFunction with n = " + n);
-        
-        if (n <= 1) {
-            System.out.println("Base case reached. Returning 1.");
-            return 1;
-        }
-        
-        int result = n * recursiveFunction(n - 1);
-        System.out.println("Calculated result for n = " + n + ": " + result);
-        return result;
+    public static void main(String[] args) {
+        int n = 5;
+
+        System.out.println("Performing Innermost Evaluation:");
+        int innermostResult = evaluate(n, true);
+        System.out.println("Result (Innermost): " + innermostResult);
+
+        System.out.println("\n----------------------------------\n");
+
+        System.out.println("Performing Outermost Evaluation:");
+        int outermostResult = evaluate(n, false);
+        System.out.println("Result (Outermost): " + outermostResult);
     }
 }
